@@ -1,3 +1,3 @@
-import {assert_true} from './assert.js';
+import {run_test} from './linkedlist_test';
 
-assert_true(true);
+run_test();
