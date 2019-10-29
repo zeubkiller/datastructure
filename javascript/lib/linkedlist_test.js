@@ -2,25 +2,59 @@ import {assert_true, assert_false, assert_equals, assert_not_equals} from "./ass
 import {LinkedList, Node} from "./linkedlist"
 
 
-function test_multiple_values(functionToTest, name, values, results) {
-
-    values.forEach((value, index)=> functionToTest(name, value, results[index]));
-}
-
-function test_push(name, value, result){
-    console.log(`***** Push - ${name}: with value ${value} and result ${result}`);
+function test_push(){
+    console.log(`***** Push - basic`);
     //Init
     const linkedList = new LinkedList();
 
     //Act
-    assert_true(linkedList.push(value));
+    assert_true(linkedList.push("Test"));
+    assert_true(linkedList.push("Test2"));
 
     //Test
-    assert_equals(result, linkedList.display());
+    assert_equals(["Test", "Test2"], linkedList.display());
+}
+
+function test_push_null(){
+    console.log(`***** Push - push null`);
+    //Init
+    const linkedList = new LinkedList();
+
+    //Act
+    assert_false(linkedList.push(null));
+
+    //Test
+    assert_equals([], linkedList.display());
+}
+
+function test_push_undefined(){
+    console.log(`***** Push - push null`);
+    //Init
+    const linkedList = new LinkedList();
+
+    //Act
+    assert_false(linkedList.push(undefined));
+
+    //Test
+    assert_equals([], linkedList.display());
 }
 
 function test_pop(){
     console.log(`***** Pop - Basic`);
+    //Init
+    const linkedList = new LinkedList();
+    linkedList.push("Test");
+    linkedList.push("Test2");
+
+    //Act
+    assert_true(linkedList.pop());
+
+    //Test
+    assert_equals(["Test"], linkedList.display());
+}
+
+function test_pop_oneElement(){
+    console.log(`***** Pop - OneElement`);
     //Init
     const linkedList = new LinkedList();
     linkedList.push("Test");
@@ -29,7 +63,7 @@ function test_pop(){
     assert_true(linkedList.pop());
 
     //Test
-    assert_equals("", linkedList.display());
+    assert_equals([], linkedList.display());
 }
 
 function test_pop_emptyList(){
@@ -38,10 +72,10 @@ function test_pop_emptyList(){
     const linkedList = new LinkedList();
 
     //Act
-    assert_true(linkedList.pop());
+    assert_false(linkedList.pop());
 
     //Test
-    assert_equals("", linkedList.display());
+    assert_equals([], linkedList.display());
 }
 
 
@@ -51,9 +85,9 @@ function test_display(){
     const linkedList = new LinkedList();
     const arrayValue = ["test1", "test2", "test3"];
     arrayValue.forEach((value)=> linkedList.push(value));
-    
+
     //Act & Test
-    assert_equals(arrayValue.join(", "), linkedList.display());
+    assert_equals(arrayValue, linkedList.display());
 }
 
 function test_display_listEmpty(){
@@ -62,7 +96,7 @@ function test_display_listEmpty(){
     const linkedList = new LinkedList();
 
     //Act & Test
-    assert_equals("", linkedList.display());
+    assert_equals([], linkedList.display());
 }
 
 function test_search(){
@@ -108,7 +142,7 @@ function test_delete_head(){
     assert_true(linkedList.delete("head"));
 
     //Test
-    assert_equals("middle, tail", linkedList.display())
+    assert_equals(["middle", "tail"], linkedList.display())
 }
 
 function test_delete_middle(){
@@ -122,7 +156,7 @@ function test_delete_middle(){
     assert_true(linkedList.delete("middle"));
 
     //Test
-    assert_equals("head, tail", linkedList.display())
+    assert_equals(["head", "tail"], linkedList.display())
 }
 
 function test_delete_tail(){
@@ -136,7 +170,7 @@ function test_delete_tail(){
     assert_true(linkedList.delete("tail"));
 
     //Test
-    assert_equals("head, middle", linkedList.display())
+    assert_equals(["head", "middle"], linkedList.display())
 }
 
 function test_delete_listEmpty(){
@@ -148,7 +182,7 @@ function test_delete_listEmpty(){
     assert_false(linkedList.delete("tail"));
 
     //Test
-    assert_equals("", linkedList.display())
+    assert_equals([], linkedList.display())
 }
 
 function test_delete_notFound(){
@@ -162,12 +196,13 @@ function test_delete_notFound(){
     assert_false(linkedList.delete("NotFound"));
 
     //Test
-    assert_equals("head, middle, tail", linkedList.display())
+    assert_equals(["head", "middle", "tail"], linkedList.display())
 }
 
 export function run_test() {
-    test_multiple_values(test_push, "Insert Item", ["InsertItem", ""], ["InsertItem", ""]);
-    test_multiple_values(test_push, "Insert null", [null, undefined], [null, null]);
+    test_push();
+    test_push_null();
+    test_push_undefined();
 
     test_pop();
     test_pop_emptyList();
