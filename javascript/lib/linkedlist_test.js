@@ -99,15 +99,37 @@ function test_display_listEmpty(){
     assert_equals([], linkedList.display());
 }
 
-function test_search(){
-    console.log(`***** Search - basic`);
+function test_search_tail(){
+    console.log(`***** Search - Search tail`);
     //Init
     const linkedList = new LinkedList();
-    const arrayValue = ["test1", "test2", "test3"];
+    const arrayValue = ["head", "middle", "tail"];
     arrayValue.forEach((value)=> linkedList.push(value));
 
     //Act & Test
-    assert_true(linkedList.search("test1"));
+    assert_true(linkedList.search("tail"));
+}
+
+function test_search_head(){
+    console.log(`***** Search - Search head`);
+    //Init
+    const linkedList = new LinkedList();
+    const arrayValue = ["head", "middle", "tail"];
+    arrayValue.forEach((value)=> linkedList.push(value));
+
+    //Act & Test
+    assert_true(linkedList.search("head"));
+}
+
+function test_search_middle(){
+    console.log(`***** Search - Search middle`);
+    //Init
+    const linkedList = new LinkedList();
+    const arrayValue = ["head", "middle", "tail"];
+    arrayValue.forEach((value)=> linkedList.push(value));
+
+    //Act & Test
+    assert_true(linkedList.search("middle"));
 }
 
 function test_search_notFound(){
@@ -210,7 +232,9 @@ export function run_test() {
     test_display();
     test_display_listEmpty();
 
-    test_search();
+    test_search_head();
+    test_search_middle();
+    test_search_tail();
     test_search_notFound();
     test_search_listEmpty();
 

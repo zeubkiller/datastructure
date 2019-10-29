@@ -63,21 +63,59 @@ export class LinkedList {
     }
 
     display() {
-        if(this.head === null)
-            return [];
-
-        let stringArray = [this.head.data];
+        let stringArray = [];
         let currentNode = this.head;
-        while(currentNode.next !== null){
-            currentNode = currentNode.next;
+        while(currentNode !== null){
             stringArray.push(currentNode.data);
+            currentNode = currentNode.next;
         }
 
         return stringArray;
     }
 
-    search() {return null;}
+    _search(element) {
+        let currentNode = this.head;
+        let previousNodeBeforeSearchedNode = null;
+        let searchedNode = null;
+        while(currentNode != null && searchedNode === null) {
+            if(currentNode.data === element) {
+                searchedNode = currentNode;
+                break;
+            }
 
-    delete(element) {return false;}
+            previousNodeBeforeSearchedNode = currentNode;
+            currentNode = currentNode.next;
+        }
+
+        return [searchedNode, previousNodeBeforeSearchedNode];
+    }
+
+    search(element) {
+        return this._search(element)[0] !== null;
+    }
+
+    delete(element) {
+        if(this.head === null)
+            return false;
+        
+        const foundNode = this._search(element);
+        const searchedNode = foundNode[0];
+        const previousNode = foundNode[1];
+
+        if(searchedNode === null)
+            return false;
+
+        if(searchedNode === this.head) {//First element
+            this.head = searchedNode.next;
+        }
+        else if(searchedNode.next === null) {//Last element
+            this._getNodeBeforeLastNode().next = null;
+        }
+        else { //Element in the middle
+            previousNode.next = searchedNode.next;
+        }
+            
+        return true;
+    }
 }
 
