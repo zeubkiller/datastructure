@@ -1,0 +1,18 @@
+{
+  "name": "datastructure",
+  "version": "0.0.0",
+  "description": "Datastructure in javascript",
+  "main": "main.js",
+  "scripts": {
+    "build": "babel lib/ -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "launch": "npm run build && node dist/main.js"
+  },
+  "author": "Sylvain Abelard",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3"
+  }
+}
