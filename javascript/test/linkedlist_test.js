@@ -47,236 +47,170 @@ describe("Push", function (){
     });
 });
 
-/*
-function test_push_null(){
-    console.log(`***** Push - push null`);
-    //Init
-    const linkedList = new LinkedList();
+describe("Pop", function (){
 
-    //Act
-    assert_false(linkedList.push(null));
+    context("With multiple item", function (){
+        specify("Should return the last input when pushed and item is not in the list anymore", function(){
+            //Init
+            const linkedList = new LinkedList();
+            linkedList.push("Test");
+            linkedList.push("Test2");
 
-    //Test
-    assert_equals([], linkedList.display());
-}
+            //Act
+            const nodeFinal = new Node("Test2", null);
+            assert.deepStrictEqual(linkedList.pop(), nodeFinal);
 
-function test_push_undefined(){
-    console.log(`***** Push - push null`);
-    //Init
-    const linkedList = new LinkedList();
+            //Test
+            assert.deepStrictEqual(["Test"], linkedList.display());
+        });
+    });
 
-    //Act
-    assert_false(linkedList.push(undefined));
+    context("With one item", function (){
+        specify("Should return the last input when pushed and list is empty", function(){
+            //Init
+            const linkedList = new LinkedList();
+            linkedList.push("Test");
 
-    //Test
-    assert_equals([], linkedList.display());
-}
+            //Act
+            const nodeFinal = new Node("Test", null);
+            assert.deepStrictEqual(linkedList.pop(), nodeFinal);
 
-function test_pop(){
-    console.log(`***** Pop - Basic`);
-    //Init
-    const linkedList = new LinkedList();
-    linkedList.push("Test");
-    linkedList.push("Test2");
+            //Test
+            assert.deepStrictEqual([], linkedList.display());
+        });
+    });
 
-    //Act
-    const nodeFinal = new Node("Test2", null);
-    assert_equals(linkedList.pop(), nodeFinal);
+    context("With no item", function (){
+        specify("Should not do anything and list is empty", function(){
+            //Init
+            const linkedList = new LinkedList();
+        
+            //Act
+            assert.deepStrictEqual(linkedList.pop(), null);
+        
+            //Test
+            assert.deepStrictEqual([], linkedList.display());
+        });
+    });
+});
 
-    //Test
-    assert_equals(["Test"], linkedList.display());
-}
+describe("Display", function (){
 
-function test_pop_oneElement(){
-    console.log(`***** Pop - OneElement`);
-    //Init
-    const linkedList = new LinkedList();
-    linkedList.push("Test");
+    context("With multiple item", function (){
+        specify("Should display all item in an array of string", function(){
+            //Init
+            const linkedList = new LinkedList();
+            const arrayValue = ["test1", "test2", "test3"];
+            arrayValue.forEach((value)=> linkedList.push(value));
 
-    //Act
-    const nodeFinal = new Node("Test", null);
-    assert_equals(linkedList.pop(), nodeFinal);
+            //Act & Test
+            assert.deepStrictEqual(arrayValue, linkedList.display());
+        });
+    });
 
-    //Test
-    assert_equals([], linkedList.display());
-}
+    context("With list empty", function (){
+        specify("Should display nothing", function(){
+            //Init
+            const linkedList = new LinkedList();
 
-function test_pop_emptyList(){
-    console.log(`***** Pop - Empty List`);
-    //Init
-    const linkedList = new LinkedList();
+            //Act & Test
+            assert.deepStrictEqual([], linkedList.display());
+        });
+    });
+});
 
-    //Act
-    assert_equals(linkedList.pop(), null);
+describe("Search", function (){
 
-    //Test
-    assert_equals([], linkedList.display());
-}
+    const tests = [
+        {args:"head"},
+        {args:"middle"},
+        {args:"tail"},
+    ];
 
+    tests.forEach(function(test){
+        specify(`With item ${test.args} should find the item`, function(){
+            //Init
+            const linkedList = new LinkedList();
+            const arrayValue = ["head", "middle", "tail"];
+            arrayValue.forEach((value)=> linkedList.push(value));
+        
+            //Act & Test
+            equals_true(linkedList.search(test.args));
+        });
+    });
 
-function test_display(){
-    console.log(`***** Display - Basic`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["test1", "test2", "test3"];
-    arrayValue.forEach((value)=> linkedList.push(value));
+    context(`With item not existing`, function(){
+        specify(`Should not find any item`, function(){
+            //Init
+            const linkedList = new LinkedList();
+            const arrayValue = ["head", "middle", "tail"];
+            arrayValue.forEach((value)=> linkedList.push(value));
+        
+            //Act & Test
+            equals_false(linkedList.search("NotFound"));
+        });
+    });
 
-    //Act & Test
-    assert_equals(arrayValue, linkedList.display());
-}
+    context(`With empty list`, function(){
+        specify(`With empty list`, function(){
+            //Init
+            const linkedList = new LinkedList();
+            
+            //Act & Test
+            equals_false(linkedList.search("test1"));
+        }); 
+    }); 
+});
 
-function test_display_listEmpty(){
-    console.log(`***** Display - List empty`);
-    //Init
-    const linkedList = new LinkedList();
+describe("Delete", function (){
+    const tests = [
+        {args:"head", expected:["middle", "tail"]},
+        {args:"middle", expected:["head", "tail"]},
+        {args:"tail", expected:["head", "middle"]},
+    ];
 
-    //Act & Test
-    assert_equals([], linkedList.display());
-}
+    tests.forEach(function(test){
+        context(`With item ${test.args}`, function(){
+            specify(`Item should not be in the list anymore`, function(){
+                //Init
+                const linkedList = new LinkedList();
+                const arrayValue = ["head", "middle", "tail"];
+                arrayValue.forEach((value)=> linkedList.push(value));
 
-function test_search_tail(){
-    console.log(`***** Search - Search tail`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["head", "middle", "tail"];
-    arrayValue.forEach((value)=> linkedList.push(value));
+                //Act
+                equals_true(linkedList.delete(test.args));
 
-    //Act & Test
-    assert_true(linkedList.search("tail"));
-}
+                //Test
+                assert.deepStrictEqual(test.expected, linkedList.display())
+            });
+        });
+    });
 
-function test_search_head(){
-    console.log(`***** Search - Search head`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["head", "middle", "tail"];
-    arrayValue.forEach((value)=> linkedList.push(value));
+    context(`With list empty`, function(){
+        specify(`Nothing should happen list still empty`, function(){
+            //Init
+            const linkedList = new LinkedList();
 
-    //Act & Test
-    assert_true(linkedList.search("head"));
-}
+            //Act
+            equals_false(linkedList.delete("Item"));
 
-function test_search_middle(){
-    console.log(`***** Search - Search middle`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["head", "middle", "tail"];
-    arrayValue.forEach((value)=> linkedList.push(value));
+            //Test
+            assert.deepStrictEqual([], linkedList.display())
+        });
+    });
 
-    //Act & Test
-    assert_true(linkedList.search("middle"));
-}
+    context(`With item not found`, function(){
+        specify(`List should not changed no item is deleted`, function(){
+            //Init
+            const linkedList = new LinkedList();
+            const arrayValue = ["head", "middle", "tail"];
+            arrayValue.forEach((value)=> linkedList.push(value));
 
-function test_search_notFound(){
-    console.log(`***** Search - NotFound`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["test1", "test2", "test3"];
-    arrayValue.forEach((value)=> linkedList.push(value));
+            //Act
+            equals_false(linkedList.delete("NotExisting"));
 
-    //Act & Test
-    assert_false(linkedList.search("NotFound"));
-}
-
-function test_search_listEmpty(){
-    console.log(`***** Search - List empty`);
-    //Init
-    const linkedList = new LinkedList();
-    
-    //Act & Test
-    assert_false(linkedList.search("test1"));
-}
-
-
-function test_delete_head(){
-    console.log(`***** Delete - delete head`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["head", "middle", "tail"];
-    arrayValue.forEach((value)=> linkedList.push(value));
-
-    //Act
-    assert_true(linkedList.delete("head"));
-
-    //Test
-    assert_equals(["middle", "tail"], linkedList.display())
-}
-
-function test_delete_middle(){
-    console.log(`***** Delete - delete middle`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["head", "middle", "tail"];
-    arrayValue.forEach((value)=> linkedList.push(value));
-
-    //Act
-    assert_true(linkedList.delete("middle"));
-
-    //Test
-    assert_equals(["head", "tail"], linkedList.display())
-}
-
-function test_delete_tail(){
-    console.log(`***** Delete - delete tail`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["head", "middle", "tail"];
-    arrayValue.forEach((value)=> linkedList.push(value));
-
-    //Act
-    assert_true(linkedList.delete("tail"));
-
-    //Test
-    assert_equals(["head", "middle"], linkedList.display())
-}
-
-function test_delete_listEmpty(){
-    console.log(`***** Delete - list empty`);
-    //Init
-    const linkedList = new LinkedList();
- 
-    //Act
-    assert_false(linkedList.delete("tail"));
-
-    //Test
-    assert_equals([], linkedList.display())
-}
-
-function test_delete_notFound(){
-    console.log(`***** Delete - notFound`);
-    //Init
-    const linkedList = new LinkedList();
-    const arrayValue = ["head", "middle", "tail"];
-    arrayValue.forEach((value)=> linkedList.push(value));
- 
-    //Act
-    assert_false(linkedList.delete("NotFound"));
-
-    //Test
-    assert_equals(["head", "middle", "tail"], linkedList.display())
-}
-
-export function run_test() {
-    test_push();
-    test_push_null();
-    test_push_undefined();
-
-    test_pop();
-    test_pop_oneElement();
-    test_pop_emptyList();
-
-    test_display();
-    test_display_listEmpty();
-
-    test_search_head();
-    test_search_middle();
-    test_search_tail();
-    test_search_notFound();
-    test_search_listEmpty();
-
-    test_delete_head();
-    test_delete_middle();
-    test_delete_tail();
-    test_delete_listEmpty();
-    test_delete_notFound();
-} */
+            //Test
+            assert.deepStrictEqual(["head", "middle", "tail"], linkedList.display())
+        });
+    });
+});
