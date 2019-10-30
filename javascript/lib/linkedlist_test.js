@@ -47,7 +47,8 @@ function test_pop(){
     linkedList.push("Test2");
 
     //Act
-    assert_true(linkedList.pop());
+    const nodeFinal = new Node("Test2", null);
+    assert_equals(linkedList.pop(), nodeFinal);
 
     //Test
     assert_equals(["Test"], linkedList.display());
@@ -60,7 +61,8 @@ function test_pop_oneElement(){
     linkedList.push("Test");
 
     //Act
-    assert_true(linkedList.pop());
+    const nodeFinal = new Node("Test", null);
+    assert_equals(linkedList.pop(), nodeFinal);
 
     //Test
     assert_equals([], linkedList.display());
@@ -72,7 +74,7 @@ function test_pop_emptyList(){
     const linkedList = new LinkedList();
 
     //Act
-    assert_false(linkedList.pop());
+    assert_equals(linkedList.pop(), null);
 
     //Test
     assert_equals([], linkedList.display());
@@ -227,6 +229,7 @@ export function run_test() {
     test_push_undefined();
 
     test_pop();
+    test_pop_oneElement();
     test_pop_emptyList();
 
     test_display();

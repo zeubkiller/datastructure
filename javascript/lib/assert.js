@@ -1,3 +1,4 @@
+import { Node } from "./linkedlist";
 
 export function assert_true(first) {
     console.assert(first === true)
@@ -24,6 +25,8 @@ function compare_array(first, second) {
 export function assert_equals(first, second) {
     if(first instanceof Array)
         console.assert(compare_array(first, second), `${first} is different from ${second}`);
+    else if(first instanceof Node)
+        console.assert(first.compare(second), `${first.display()} is different from ${second.display()}`);
     else
         console.assert(first === second, `${first} is different from ${second}`)
 }

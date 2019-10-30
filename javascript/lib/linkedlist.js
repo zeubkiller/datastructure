@@ -10,6 +10,14 @@ export class Node {
     get next() {return this._next;}
     set next(next) {this._next = next}
 
+    display() {
+        return `Data:${this.data}, Next:${this.next}`;
+    }
+
+    compare(other) {
+        return this.data === other.data && this.next === other.next;
+    }
+
 }
 
 export class LinkedList {
@@ -51,15 +59,20 @@ export class LinkedList {
 
     pop() {
         if(this.head === null)
-            return false;
+            return null;
         
         let nodeBeforeNode = this._getNodeBeforeLastNode();
-        if(nodeBeforeNode === null)
+        let nodeFound = null;
+        if(nodeBeforeNode === null) {
+            nodeFound = this.head;
             this.head = null;
-        else
+        }
+        else {
+            nodeFound = nodeBeforeNode.next;
             nodeBeforeNode.next = null;
+        }
 
-        return true;
+        return nodeFound;
     }
 
     display() {
