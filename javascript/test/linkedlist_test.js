@@ -1,20 +1,53 @@
-import {assert_true, assert_false, assert_equals, assert_not_equals} from "./assert"
-import {LinkedList, Node} from "./linkedlist"
+import * as assert from "assert"
 
+import {LinkedList, Node} from "../lib/linkedlist"
 
-function test_push(){
-    console.log(`***** Push - basic`);
-    //Init
-    const linkedList = new LinkedList();
-
-    //Act
-    assert_true(linkedList.push("Test"));
-    assert_true(linkedList.push("Test2"));
-
-    //Test
-    assert_equals(["Test", "Test2"], linkedList.display());
+function equals_true(value) {
+    return assert.equal(value, true);
 }
 
+function equals_false(value) {
+    return assert.equal(value, false);
+}
+
+describe("Push", function (){
+
+    context("With multiple item", function (){
+        specify("Should return true when pushed and new item is in the list", function(){
+            //Init
+            const linkedList = new LinkedList();
+
+            //Act
+            equals_true(linkedList.push("Test"));
+            equals_true(linkedList.push("Test2"));
+
+            //Test
+            assert.deepStrictEqual(["Test", "Test2"], linkedList.display());
+        })
+    });
+
+    context("With null item", function() {
+        const tests = [
+            {arg:null, expected:[]},
+            {arg:undefined, expected:[]}
+        ];
+
+        tests.forEach(function (test){
+            specify(`input ${test.arg} Should return false when pushed and list is empty`, function(){
+                //Init
+                const linkedList = new LinkedList();
+    
+                //Act
+                equals_false(linkedList.push(test.arg));
+    
+                //Test
+                assert.deepStrictEqual(test.expected, linkedList.display());
+            });
+        })
+    });
+});
+
+/*
 function test_push_null(){
     console.log(`***** Push - push null`);
     //Init
@@ -246,4 +279,4 @@ export function run_test() {
     test_delete_tail();
     test_delete_listEmpty();
     test_delete_notFound();
-}
+} */
