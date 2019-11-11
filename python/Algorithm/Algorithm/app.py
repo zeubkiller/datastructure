@@ -1,14 +1,10 @@
 import falcon
 
-class Ressources(object):
-    def on_get(self, req, resp):
-        #Handle GET request
-        resp.status = falcon.HTTP_200
-        resp.body = ('{"dru":"Dru mega dru"}')
+from routes.InsertionSortRoutes import InsertionSortRoutes 
 
 
 app = falcon.API()
 
-ressource = Ressources()
+insertion_sort_routes = InsertionSortRoutes()
 
-app.add_route('/ressources', ressource)
+app.add_route('/insertion_sort', insertion_sort_routes)
