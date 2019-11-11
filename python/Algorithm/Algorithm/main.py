@@ -1,9 +1,14 @@
-import asyncio
+import falcon
 
-async def say(what, when):
-    await asyncio.sleep(when)
-    print(what)
+class Ressources(object):
+    def on_get(self, req, resp):
+        #Handle GET request
+        resp.status = falcon.HTTP_200
+        resp.body = ('{"dru":"Dru mega dru"')
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(say('hello world', 1))
-loop.close()
+
+app = falcon.API()
+
+ressource = Ressources()
+
+app.add_route('/ressources', ressource)
