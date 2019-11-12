@@ -10,8 +10,7 @@ class InsertionSortRoutes(object):
         json_data = req.media
         print(json_data)
 
-        sorted_array = insertion_sort(json_data['data'])
+        sorted_array = insertion_sort(json_data["data"])
 
         return_value = {"data":sorted_array}
-        print("return value {}".format(return_value))
         resp.body = json.dumps(return_value)

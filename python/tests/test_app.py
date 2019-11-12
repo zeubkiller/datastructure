@@ -14,9 +14,9 @@ def test_post_insertion_sort():
 
     #Act
     response = client().simulate_post('/insertion_sort', 
-        body=bytes(json.dumps({'data':[15,33,2,6]}), "UTF8"),
+        body=bytes(json.dumps({"data":[15,33,2,6]}), "UTF8"),
         headers={"content-type":"application/json"})
 
     #Test
     assert response.status == falcon.HTTP_OK
-    assert response.json == json.dumps({'data':[2,6,15,33]})
+    assert response.text == json.dumps({"data":[2,6,15,33]})
