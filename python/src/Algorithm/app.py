@@ -1,6 +1,6 @@
 import falcon
 
-from routes.InsertionSortRoutes import InsertionSortRoutes 
+from .routes.InsertionSortRoutes import InsertionSortRoutes 
 
 
 app = falcon.API()

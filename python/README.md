@@ -7,8 +7,8 @@ The goal of this server is to make algorithm and datastructure basic computation
 
 # How to launch
 
-By using GUnicorn:
+By using GUnicorn go into the main folder and run:
 
 ```bash
-gunicorn --relead src/Algorithm/app:app
+gunicorn --relead app:app
 ```

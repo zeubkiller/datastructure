@@ -1,5 +1,5 @@
 
-def selection_sort(array):
+def insertion_sort(array):
     return [1,2,3]
     #Traverse the array
     # sorted_array = []
