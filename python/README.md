@@ -10,5 +10,5 @@ The goal of this server is to make algorithm and datastructure basic computation
 By using GUnicorn go into the main folder and run:
 
 ```bash
-gunicorn --relead app:app
+gunicorn --reload app:app
 ```
