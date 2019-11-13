@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "build": "babel lib/ -d dist",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && ./node_modules/.bin/mocha --require @babel/register 'test/**/*.js'",
     "launch": "npm run build && node dist/main.js"
   },
   "author": "Sylvain Abelard",
@@ -13,6 +13,8 @@
   "devDependencies": {
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3"
+    "@babel/preset-env": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "mocha": "^6.2.2"
   }
 }

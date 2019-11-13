@@ -10,19 +10,23 @@ export class Node {
     get next() {return this._next;}
     set next(next) {this._next = next}
 
+    display() {
+        return `Data:${this.data}, Next:${this.next}`;
+    }
+
+    compare(other) {
+        return this.data === other.data && this.next === other.next;
+    }
 }
 
 export class LinkedList {
     constructor(){
         this.head = null;
+        this._lastNode = null;
     }
 
     _getLastNode() {
-        let currentNode = this.head;
-        while(currentNode.next !== null)
-            currentNode = currentNode.next;
-
-        return currentNode;
+        return this._lastNode;
     }
 
     _getNodeBeforeLastNode() {
@@ -42,8 +46,11 @@ export class LinkedList {
 
         if(this.head === null) {
             this.head = new Node(element, null);
+            this._lastNode = this.head;
         } else {
-            this._getLastNode().next = new Node(element, null);
+            const newNode = new Node(element, null);
+            this._getLastNode().next = newNode;
+            this._lastNode = newNode;
         }
 
         return true;
@@ -51,15 +58,22 @@ export class LinkedList {
 
     pop() {
         if(this.head === null)
-            return false;
+            return null;
         
         let nodeBeforeNode = this._getNodeBeforeLastNode();
-        if(nodeBeforeNode === null)
+        let nodeFound = null;
+        if(nodeBeforeNode === null) {
+            nodeFound = this.head;
             this.head = null;
-        else
+            this._lastNode = null;
+        }
+        else {
+            nodeFound = nodeBeforeNode.next;
             nodeBeforeNode.next = null;
+            this._lastNode = nodeBeforeNode;
+        }
 
-        return true;
+        return nodeFound;
     }
 
     display() {
