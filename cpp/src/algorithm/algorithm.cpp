@@ -1,8 +1,5 @@
-#include <iostream>
+#include "algorithm.h"
 
-int main(int argc, char** argv){
-    
-    std::cout << "Gaston c'est mon pere";
-    
-    return 0;
+bool Algorithm::linear_search(const int* array, const int array_size, const int searched_item) {
+    return false;
 }
