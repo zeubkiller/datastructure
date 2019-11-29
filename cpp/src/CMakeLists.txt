@@ -1,3 +1,7 @@
-project("Main")
+cmake_minimum_required(VERSION 3.10)
 
-add_executable(main main.cpp)
+project("algorithm")
+
+add_subdirectory(algorithm)
+
+add_subdirectory(test)
